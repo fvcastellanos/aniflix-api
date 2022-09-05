@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `aniflix`.`worker` (
   `email` VARCHAR(300) NOT NULL,
   `active` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_worker_id` (`name` ASC, `cui` ASC) VISIBLE,
+  UNIQUE INDEX `idx_worker_id` (`cui` ASC) VISIBLE,
   INDEX `idx_worker_active` (`active` ASC) VISIBLE,
   INDEX `fk_worker_department_idx` (`department_id` ASC) VISIBLE,
   UNIQUE INDEX `uq_worker_email` (`email` ASC) VISIBLE,

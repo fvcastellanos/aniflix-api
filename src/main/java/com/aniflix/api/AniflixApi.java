@@ -9,5 +9,4 @@ public class AniflixApi {
 	public static void main(String[] args) {
 		SpringApplication.run(AniflixApi.class, args);
 	}
-
 }
