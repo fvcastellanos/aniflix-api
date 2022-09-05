@@ -1,5 +1,6 @@
 package com.aniflix.api.model.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import com.aniflix.api.model.entity.WorkerEntity;
+import com.aniflix.api.model.entity.WorkerEventEntity;
 
 public interface WorkerRepository extends PagingAndSortingRepository<WorkerEntity, String> {
     
@@ -18,4 +20,10 @@ public interface WorkerRepository extends PagingAndSortingRepository<WorkerEntit
 
     Optional<WorkerEntity> findByCui(String cui);
     Optional<WorkerEntity> findByEmail(String email);
+
+    @Query("select workerEvent from WorkerEventEntity workerEvent where workerEvent.worker.id = :id")
+    List<WorkerEventEntity> findWorkerEventsByWorkerId(String id);
+
+    @Query("select workerEvent from WorkerEventEntity workerEvent where workerEvent.id = :id")
+    Optional<WorkerEventEntity> findWorkerEventById(String id);
 }

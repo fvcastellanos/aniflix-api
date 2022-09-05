@@ -1,5 +1,6 @@
 package com.aniflix.api.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -14,6 +15,7 @@ import com.aniflix.api.domain.model.status.ActiveStatus;
 import com.aniflix.api.domain.model.web.Worker;
 import com.aniflix.api.factory.BusinessExceptionFactory;
 import com.aniflix.api.model.entity.WorkerEntity;
+import com.aniflix.api.model.entity.WorkerEventEntity;
 import com.aniflix.api.model.repository.DepartmentRepository;
 import com.aniflix.api.model.repository.WorkerRepository;
 
@@ -102,5 +104,18 @@ public class WorkerService {
         entity.setActive(active);
                 
         return workerRepository.save(entity);
+    }
+
+    public List<WorkerEventEntity> getWorkerEvents(final String id) {
+
+        LOGGER.info("get worker events for id: {}", id);
+
+        return workerRepository.findWorkerEventsByWorkerId(id);
+    }
+
+    public WorkerEventEntity getWorkerEventById(final String id) {
+
+        return workerRepository.findWorkerEventById(id)
+            .orElseThrow(() -> BusinessExceptionFactory.createBusinessException(HttpStatus.NOT_FOUND, "Worker event not found"));
     }
 }

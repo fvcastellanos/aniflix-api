@@ -60,8 +60,11 @@ CREATE TABLE IF NOT EXISTS `aniflix`.`event` (
   `id` VARCHAR(50) NOT NULL,
   `name` VARCHAR(150) NOT NULL,
   `type` VARCHAR(1) NOT NULL,
+  `active` INT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `idx_event_type` (`name` ASC, `type` ASC) VISIBLE)
+  INDEX `idex_event_active` (`active` ASC) VISIBLE,
+  INDEX `idex_event_type` (`type` ASC) VISIBLE,
+  INDEX `idx_event_name` (`name` ASC) VISIBLE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_bin;

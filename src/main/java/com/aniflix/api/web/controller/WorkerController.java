@@ -1,5 +1,6 @@
 package com.aniflix.api.web.controller;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aniflix.api.domain.model.web.Worker;
+import com.aniflix.api.domain.model.web.WorkerEvent;
 import com.aniflix.api.service.WorkerService;
+import com.aniflix.api.transformer.WorkerEventTransformer;
 import com.aniflix.api.transformer.WorkerTransformer;
 
 @RestController
@@ -76,6 +79,29 @@ public class WorkerController extends ControllerBase {
 
         final var workerEntity = workerService.update(id, worker);
         final var response = WorkerTransformer.toView(workerEntity);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // -------------------------------------------------------------------------------------
+
+    @GetMapping("/{id}/events")
+    public ResponseEntity<List<WorkerEvent>> workerEvents(@PathVariable @NotBlank final String id) {
+
+        final var events = workerService.getWorkerEvents(id)
+            .stream()
+            .map(event -> WorkerEventTransformer.toView(id, event))
+            .collect(Collectors.toList());
+
+        return new ResponseEntity<>(events, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/events/{workerEventId}")
+    public ResponseEntity<WorkerEvent> workerEventId(@PathVariable @NotBlank final String id,
+                                                     @PathVariable @NotBlank final String workerEventId) {
+
+        final var entity = workerService.getWorkerEventById(workerEventId);
+        final var response = WorkerEventTransformer.toView(id, entity);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
